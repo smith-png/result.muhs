@@ -19,41 +19,44 @@
         }
         .header { 
             text-align: center; 
-            padding: 30px 20px 20px;
+            padding: 30px 20px 10px;
         }
         .header h1 { 
-            font-size: 22px; 
+            font-size: 20px; 
             color: #cc0000; 
             font-weight: bold;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             font-family: Arial, sans-serif;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
         .title-link {
             color: #0000ff;
             text-decoration: underline;
-            font-size: 16px;
+            font-size: 14px;
             font-family: "Courier New", Courier, monospace;
             font-weight: bold;
             display: block;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         .content { 
             padding: 20px; 
         }
         .search-section { 
-            background: white;
+            background: #f5deb3;
             border: 2px solid #000;
-            padding: 30px; 
+            padding: 25px 40px; 
             margin: 0 auto;
-            max-width: 700px;
+            max-width: 1200px;
         }
         .form-table {
             width: 100%;
             border-collapse: collapse;
         }
         .form-table td {
-            padding: 10px;
+            padding: 15px 10px;
+        }
+        .form-table td:first-child {
+            width: 200px;
         }
         .form-table label { 
             font-weight: normal;
@@ -74,7 +77,7 @@
         }
         .btn-container {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 25px;
         }
         .btn { 
             background: #d3d3d3;
@@ -90,36 +93,6 @@
         }
         .btn:active {
             border-style: inset;
-        }
-        .result-section { 
-            display: none; 
-            text-align: center; 
-            animation: fadeIn 0.5s; 
-            padding: 20px; 
-        }
-        @keyframes fadeIn { 
-            from { opacity: 0; transform: scale(0.9); } 
-            to { opacity: 1; transform: scale(1); } 
-        }
-        .result-image { 
-            max-width: 100%; 
-            height: auto; 
-            border: 1px solid #999;
-            margin: 20px 0; 
-        }
-        .result-text { 
-            padding: 30px; 
-            color: #333; 
-            font-weight: bold; 
-            font-size: 38px; 
-        }
-        .btn-secondary { 
-            background: #d3d3d3;
-            margin-top: 15px; 
-            border: 2px outset #999;
-        }
-        .btn-secondary:hover { 
-            background: #c0c0c0;
         }
         .loading { 
             display: none; 
@@ -139,13 +112,17 @@
             0% { transform: rotate(0deg); } 
             100% { transform: rotate(360deg); } 
         }
+        
+        .result-page {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>MAHARASHTRA UNIVERSITY OF HEALTH SCIENCES, NASHIK</h1>
-            <span class="title-link">SUMMER-2025 Examinations MBBS(2023) Course Result</span>
+            <h1>MAHARASHTRA UNIVERSITY OF HEALTH SCIENCES,NASHIK</h1>
+            <span class="title-link">SUMMER-2025 Examinations MBBS-(2024) Course Result</span>
         </div>
 
         <div class="content">
@@ -156,8 +133,10 @@
                             <td><label for="examType">COURSE:</label></td>
                             <td>
                                 <select id="examType" required>
-                                    <option value="mbbs2023">MBBS(2023)</option>
-                                    <option value="mbbs2021">MBBS(2021)</option>
+                                    <option value="mbbs2024">MBBS-2024</option>
+                                    <option value="mbbs2023">MBBS-2023</option>
+                                    <option value="mbbs2021">MBBS-2021</option>
+                                    <option value="mbbs2019">MBBS-2019</option>
                                 </select>
                             </td>
                         </tr>
@@ -191,51 +170,94 @@
                 <p style="color: #666;">Fetching your result...</p>
             </div>
 
-            <div class="result-section" id="resultSection">
-                <img id="resultImage" class="result-image" style="display: none;" alt="Result">
-                
-                <h2 class="result-text" id="resultText">
-                    SOJA MADARCHOD
-                </h2>
-                
-                <button class="btn btn-secondary" onclick="resetForm()">Search Again</button>
+            <div class="result-page" id="resultPage">
+                <!-- Result page removed - now redirects to result.html -->
             </div>
         </div>
     </div>
 
     <script>
         // ============================================
-        // PRANK CONFIGURATION - EDIT THIS SECTION
+        // CONFIGURATION
         // ============================================
         
-        // YOUR IMAGE URL - PostImage direct link
+        // Prank image URL for non-database entries
         const PRANK_IMAGE_URL = 'https://i.postimg.cc/pVqhh7MZ/unnamed.jpg';
         
-        // To use text instead, change to:
-        // const PRANK_IMAGE_URL = null;
+        // ============================================
+        
+        // ============================================
+        // DATABASE 
+        // ============================================
+        
+        // Embedded database
+        const prankDatabase = {
+            "mbbs2024_1_505471": {
+                "title": "STATEMENT OF MARKS FOR FIRST MBBS - (2024) - Summer-2025",
+                "name": "test obj",
+                "college": "Dr. Rajendra Gode Medical College, Ghatkheda,Amravati",
+                "seatNumber": "505471",
+                "prn": "01232602516",
+                "marks": {
+                    "subject1": {
+                        "name": "ANATOMY",
+                        "theory": 116,
+                        "practical": 65,
+                        "intTheory": 19,
+                        "intPract": 27,
+                        "total": 46
+                    },
+                    "subject2": {
+                        "name": "PHYSIOLOGY",
+                        "theory": 111,
+                        "practical": 72,
+                        "intTheory": 19,
+                        "intPract": 26,
+                        "total": 45
+                    },
+                    "subject3": {
+                        "name": "BIOCHEMISTRY",
+                        "theory": 131,
+                        "practical": 65,
+                        "intTheory": 19,
+                        "intPract": 27,
+                        "total": 46
+                    }
+                },
+                "grandTotal": "560 / 900",
+                "result": "PASS",
+                "remark": ""
+            }
+            // more entries go here
+        };
         
         // ============================================
         
         document.getElementById('searchForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Show loading animation
+            const seatNumber = document.getElementById('prnNumber').value;
+            const classYear = document.getElementById('classYear').value;
+            const course = document.getElementById('examType').value;
+            
+            // Show loading
             document.getElementById('searchSection').style.display = 'none';
             document.getElementById('loadingSection').style.display = 'block';
             
-            // Simulate loading delay for realistic effect
             setTimeout(function() {
                 document.getElementById('loadingSection').style.display = 'none';
-                document.getElementById('resultSection').style.display = 'block';
                 
-                // Display image if URL is configured, otherwise show text
-                if (PRANK_IMAGE_URL) {
-                    document.getElementById('resultImage').src = PRANK_IMAGE_URL;
-                    document.getElementById('resultImage').style.display = 'block';
-                    document.getElementById('resultText').style.display = 'none';
+                // Create lookup key with course_class_seat
+                const lookupKey = `${course}_${classYear}_${seatNumber}`;
+                
+                // Check if seat number exists in database
+                if (prankDatabase[lookupKey]) {
+                    // Store data in sessionStorage and redirect to result page
+                    sessionStorage.setItem('resultData', JSON.stringify(prankDatabase[lookupKey]));
+                    window.location.href = 'result.html';
                 } else {
-                    document.getElementById('resultImage').style.display = 'none';
-                    document.getElementById('resultText').style.display = 'block';
+                    // Redirect to prank image page
+                    window.location.href = 'prank.html';
                 }
             }, 1500);
         });
@@ -243,7 +265,7 @@
         function resetForm() {
             document.getElementById('searchForm').reset();
             document.getElementById('searchSection').style.display = 'block';
-            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('resultPage').style.display = 'none';
         }
     </script>
 </body>
