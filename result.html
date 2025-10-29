@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1024, initial-scale=1.0, user-scalable=yes">
+    <title>MUHS Result</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f5f5f0;
+            padding: 20px;
+        }
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: white;
+            padding: 20px;
+        }
+        .header { 
+            text-align: center; 
+            margin-bottom: 15px;
+        }
+        .header h1 { 
+            font-size: 16px; 
+            color: #cc0000; 
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 0.3px;
+        }
+        .title {
+            color: #6600cc;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .student-info {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .student-info p {
+            font-size: 14px;
+            margin: 3px 0;
+            line-height: 1.4;
+        }
+        .student-info .name-line {
+            color: #000;
+            font-weight: normal;
+        }
+        .student-info .college-line {
+            color: #0000ff;
+            font-weight: bold;
+        }
+        .student-info .seat-line {
+            color: #000;
+            font-weight: normal;
+        }
+        .student-info .seat-line strong {
+            color: #0000ff;
+            font-weight: bold;
+        }
+        
+        /* Table with 3D double border effect */
+        .marks-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            border: 1px solid #000;
+            box-shadow: 0 0 0 3px #e6ffe6, 0 0 0 4px #000;
+        }
+        .marks-table th, .marks-table td {
+            padding: 6px 4px;
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.3;
+            position: relative;
+        }
+        
+        /* Create double border effect with box-shadow */
+        .marks-table th,
+        .marks-table td {
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+            box-shadow: inset -3px 0 0 0 #e6ffe6, inset -4px 0 0 0 #000,
+                        inset 0 -3px 0 0 #e6ffe6, inset 0 -4px 0 0 #000;
+        }
+        
+        .marks-table th:last-child,
+        .marks-table td:last-child {
+            border-right: none;
+            box-shadow: inset 0 -3px 0 0 #e6ffe6, inset 0 -4px 0 0 #000;
+        }
+        
+        .marks-table tr:last-child td {
+            border-bottom: none;
+            box-shadow: inset -3px 0 0 0 #e6ffe6, inset -4px 0 0 0 #000;
+        }
+        
+        .marks-table tr:last-child td:last-child {
+            box-shadow: none;
+        }
+        
+        .marks-table thead th {
+            background: #ffb3b3;
+            font-weight: bold;
+            color: #000;
+            font-size: 12px;
+            padding: 8px 4px;
+        }
+        
+        /* Add border between INTERNAL ASSESSMENT THEORY and PRACT columns */
+        .marks-table .header-row-2 th:first-child {
+            border-right: 1px solid #000;
+            box-shadow: inset -3px 0 0 0 #e6ffe6, inset -4px 0 0 0 #000,
+                        inset 0 -3px 0 0 #e6ffe6, inset 0 -4px 0 0 #000;
+        }
+        
+        /* Remove border between columns in first header row where INTERNAL ASSESSMENT spans */
+        .marks-table .header-row-1 th:nth-child(5) {
+            border-right: none;
+            box-shadow: inset 0 -3px 0 0 #e6ffe6, inset 0 -4px 0 0 #000;
+        }
+        
+        /* Add border between INTERNAL ASSESSMENT and TOTAL columns */
+        .marks-table .header-row-1 th:nth-child(6) {
+            border-left: 1px solid #000;
+            box-shadow: inset 3px 0 0 0 #e6ffe6, inset 4px 0 0 0 #000,
+                        inset 0 -3px 0 0 #e6ffe6, inset 0 -4px 0 0 #000;
+        }
+        
+        .marks-table .max-row, .marks-table .min-row {
+            background: #99ffcc;
+            font-weight: bold;
+        }
+        .marks-table .subject-row {
+            background: #e6ffe6;
+        }
+        .marks-table .subject-row td:first-child {
+            font-weight: normal;
+            text-transform: uppercase;
+            text-align: left;
+            padding-left: 15px;
+            font-size: 14px;
+        }
+        
+        /* Special styling for bottom 3 rows */
+        .marks-table .grand-total-row,
+        .marks-table .result-row,
+        .marks-table .remark-row {
+            background: #66ffff;
+            font-weight: bold;
+        }
+        
+        .marks-table .result-row,
+        .marks-table .remark-row {
+            background: #99ffcc;
+        }
+        
+        /* Bottom 3 rows: text split across columns 1-4 (left) and 5-7 (right) */
+        .marks-table .grand-total-row td:nth-child(1),
+        .marks-table .grand-total-row td:nth-child(2),
+        .marks-table .grand-total-row td:nth-child(3),
+        .marks-table .result-row td:nth-child(1),
+        .marks-table .result-row td:nth-child(2),
+        .marks-table .result-row td:nth-child(3),
+        .marks-table .remark-row td:nth-child(1),
+        .marks-table .remark-row td:nth-child(2),
+        .marks-table .remark-row td:nth-child(3) {
+            border-right: none;
+            box-shadow: inset 0 -3px 0 0 #e6ffe6, inset 0 -4px 0 0 #000;
+        }
+        
+        .marks-table .grand-total-row td:nth-child(4),
+        .marks-table .result-row td:nth-child(4),
+        .marks-table .remark-row td:nth-child(4) {
+            text-align: right;
+            padding-right: 15px;
+            font-size: 15px;
+            box-shadow: inset -3px 0 0 0 #e6ffe6, inset -4px 0 0 0 #000,
+                        inset 0 -3px 0 0 #e6ffe6, inset 0 -4px 0 0 #000;
+        }
+        
+        .marks-table .grand-total-row td:nth-child(5),
+        .marks-table .grand-total-row td:nth-child(6),
+        .marks-table .result-row td:nth-child(5),
+        .marks-table .result-row td:nth-child(6),
+        .marks-table .remark-row td:nth-child(5),
+        .marks-table .remark-row td:nth-child(6) {
+            border-right: none;
+            box-shadow: inset 0 -3px 0 0 #e6ffe6, inset 0 -4px 0 0 #000;
+        }
+        
+        .marks-table .grand-total-row td:nth-child(7),
+        .marks-table .result-row td:nth-child(7),
+        .marks-table .remark-row td:nth-child(7) {
+            text-align: left;
+            padding-left: 15px;
+            font-weight: normal;
+        }
+        
+        .notes {
+            margin-top: 15px;
+            font-size: 12px;
+            line-height: 1.6;
+            text-align: left;
+        }
+        .notes p {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MAHARASHTRA UNIVERSITY OF HEALTH SCIENCES, NASHIK</h1>
+            <div class="title" id="resultTitle"></div>
+        </div>
+
+        <div class="student-info">
+            <p class="name-line"><strong>Name of the Student:</strong>- <span id="studentName"></span></p>
+            <p class="college-line"><strong>College:</strong>- <span id="collegeName"></span></p>
+            <p class="seat-line"><strong>Seat No:</strong>-<span id="seatNumber"></span> &nbsp;&nbsp; <strong>PRN No:</strong>- <span id="prnNumber"></span></p>
+        </div>
+
+        <table class="marks-table">
+            <thead>
+                <tr class="header-row-1">
+                    <th rowspan="2" style="width: 18%;">HEADS / SUBJECTS</th>
+                    <th rowspan="2" style="width: 13%;">THEORY<br>TOTAL</th>
+                    <th rowspan="2" style="width: 13%;">PRACTICAL+ORAL</th>
+                    <th rowspan="2" style="width: 13%;">TOTAL<br>THEORY+PRACT.</th>
+                    <th colspan="2" style="width: 26%;">INTERNAL<br>ASSESSMENT</th>
+                    <th rowspan="2" style="width: 13%;">TOTAL</th>
+                </tr>
+                <tr class="header-row-2">
+                    <th style="width: 13%;">THEORY</th>
+                    <th style="width: 13%;">PRACT.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="max-row">
+                    <td><strong>MAX</strong></td>
+                    <td>200</td>
+                    <td>100</td>
+                    <td>300</td>
+                    <td>40</td>
+                    <td>40</td>
+                    <td><strong>80</strong></td>
+                </tr>
+                <tr class="min-row">
+                    <td><strong>MIN</strong></td>
+                    <td>80</td>
+                    <td>40</td>
+                    <td>150</td>
+                    <td>16</td>
+                    <td>16</td>
+                    <td><strong>40</strong></td>
+                </tr>
+                <tr class="subject-row">
+                    <td id="subject1Name"></td>
+                    <td id="subject1-theory"></td>
+                    <td id="subject1-pract"></td>
+                    <td id="subject1-total"></td>
+                    <td id="subject1-int-theory"></td>
+                    <td id="subject1-int-pract"></td>
+                    <td><strong id="subject1-final"></strong></td>
+                </tr>
+                <tr class="subject-row">
+                    <td id="subject2Name"></td>
+                    <td id="subject2-theory"></td>
+                    <td id="subject2-pract"></td>
+                    <td id="subject2-total"></td>
+                    <td id="subject2-int-theory"></td>
+                    <td id="subject2-int-pract"></td>
+                    <td><strong id="subject2-final"></strong></td>
+                </tr>
+                <tr class="subject-row">
+                    <td id="subject3Name"></td>
+                    <td id="subject3-theory"></td>
+                    <td id="subject3-pract"></td>
+                    <td id="subject3-total"></td>
+                    <td id="subject3-int-theory"></td>
+                    <td id="subject3-int-pract"></td>
+                    <td><strong id="subject3-final"></strong></td>
+                </tr>
+                <tr class="grand-total-row">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>GRAND TOTAL :</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td id="grandTotal"></td>
+                </tr>
+                <tr class="result-row">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>RESULT :</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td id="resultStatus"></td>
+                </tr>
+                <tr class="remark-row">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>REMARK :</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td id="remarkText"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="notes">
+            <p><strong><em>NOTE:</em></strong> 1) Internal assessment marks are not considered for Grand total.</p>
+            <p><strong>2) <em>The above result is subject to change in case of any error in the processing of the results in accordance with the provisions under section-67 of Ordinance 1/2014.</em></strong></p>
+            <p><strong>3) <em>For Verification of marks of Theory/Practical/Oral/Viva only (If any), send an application with prescribed fees through the college before 17/10/2025 As per Circ.70/2023,20/11/23. And for Photostate(Xerox) copies of Answer books (If any), send and Application with requisite fee through the college before 17/10/2025 As per Circ.70/2023,20/11/23.</em></strong></p>
+        </div>
+    </div>
+
+    <script>
+        // Get result data from sessionStorage
+        const resultData = JSON.parse(sessionStorage.getItem('resultData'));
+        
+        if (!resultData) {
+            window.location.href = 'index.html';
+        } else {
+            // Fill in the result page
+            document.getElementById('resultTitle').textContent = resultData.title;
+            document.getElementById('studentName').textContent = resultData.name;
+            document.getElementById('collegeName').textContent = resultData.college;
+            document.getElementById('seatNumber').textContent = resultData.seatNumber;
+            document.getElementById('prnNumber').textContent = resultData.prn;
+            
+            // Fill in subject marks
+            const subjects = ['subject1', 'subject2', 'subject3'];
+            const subjectData = [resultData.marks.subject1, resultData.marks.subject2, resultData.marks.subject3];
+            
+            subjects.forEach((subject, index) => {
+                const marks = subjectData[index];
+                document.getElementById(`${subject}Name`).textContent = marks.name;
+                document.getElementById(`${subject}-theory`).textContent = marks.theory;
+                document.getElementById(`${subject}-pract`).textContent = marks.practical;
+                document.getElementById(`${subject}-total`).textContent = marks.theory + marks.practical;
+                document.getElementById(`${subject}-int-theory`).textContent = marks.intTheory;
+                document.getElementById(`${subject}-int-pract`).textContent = marks.intPract;
+                document.getElementById(`${subject}-final`).textContent = marks.total;
+            });
+            
+            // Fill in totals
+            document.getElementById('grandTotal').textContent = resultData.grandTotal;
+            document.getElementById('resultStatus').textContent = resultData.result;
+            document.getElementById('remarkText').textContent = resultData.remark || '';
+        }
+    </script>
+</body>
+</html>
